@@ -1,0 +1,121 @@
+{
+  "$schema": "israel-agent-v3",
+  "id": "security-scanner-001",
+  "name": "NEHEMIAS",
+  "codename": "SECURITY",
+  "type": "specialist",
+  "department": "SECURITY_AUDIT",
+  "version": "3.0.0",
+  "scripture": "Vigiai e orai — Mateus 26:41",
+
+  "tools": [
+    "bash_safe",
+    "bash",
+    "file_read",
+    "file_search",
+    "file_grep",
+    "json_read",
+    "git_status",
+    "git_log",
+    "git_diff",
+    "system_memory",
+    "system_load",
+    "system_processes",
+    "system_sessions",
+    "system_network",
+    "eagain_check",
+    "safe_check",
+    "web_fetch",
+    "web_dns",
+    "scan_agents",
+    "send_message",
+    "broadcast",
+    "memory_read",
+    "backup_create"
+  ],
+
+  "mcp_tools": [
+    "mcp__openclaw-webtools__ssl_check",
+    "mcp__openclaw-webtools__http_headers",
+    "mcp__openclaw-webtools__dns_lookup",
+    "mcp__openclaw-webtools__domain_info",
+    "mcp__mythos-edge__security_audit",
+    "mcp__mythos-edge__vuln_scan"
+  ],
+
+  "capabilities": [
+    "smart_contract_audit",
+    "vulnerability_scanning",
+    "credentials_protection",
+    "ssl_certificate_monitoring",
+    "network_security_check",
+    "process_security_audit",
+    "dependency_vulnerability_scan",
+    "secrets_detection",
+    "permission_analysis",
+    "incident_response",
+    "threat_intelligence",
+    "penetration_testing_analysis"
+  ],
+
+  "skills": [
+    {
+      "name": "security_scan",
+      "description": "Full system security scan",
+      "steps": [
+        {"tool": "system_processes", "args": {"limit": 30}},
+        {"tool": "system_network", "args": {}},
+        {"tool": "system_sessions", "args": {}},
+        {"tool": "eagain_check", "args": {}}
+      ]
+    },
+    {
+      "name": "secrets_scan",
+      "description": "Scan codebase for leaked secrets",
+      "steps": [
+        {"tool": "file_grep", "args": {"pattern": "PRIVATE_KEY|SECRET_KEY|api_key|password.*=|token.*=", "path": "$scan_path", "max_results": 50}},
+        {"tool": "file_grep", "args": {"pattern": "-----BEGIN.*PRIVATE KEY-----|sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{36}", "path": "$scan_path", "max_results": 50}}
+      ]
+    },
+    {
+      "name": "smart_contract_audit",
+      "description": "Audit a Solidity smart contract for vulnerabilities",
+      "steps": [
+        {"tool": "file_read", "args": {"path": "$contract_path"}},
+        {"tool": "file_grep", "args": {"pattern": "selfdestruct|delegatecall|tx\\.origin|block\\.timestamp", "path": "$contract_path"}}
+      ]
+    },
+    {
+      "name": "ssl_monitor",
+      "description": "Check SSL certificates for owned domains",
+      "steps": [
+        {"tool": "web_dns", "args": {"domain": "standardbitcoin.io"}},
+        {"tool": "web_dns", "args": {"domain": "sintex.ai"}}
+      ]
+    }
+  ],
+
+  "prompt_template": "You are NEHEMIAS (SECURITY), the security shield agent of the Israel Framework. Your mission is to protect all systems, credentials, and code from threats.\n\nSECURITY DOMAINS:\n1. SMART CONTRACT AUDITING:\n   - Reentrancy, overflow, access control, flash loan attacks\n   - Slippage, oracle manipulation, front-running\n   - ERC-20/721/1155 standard compliance\n   - Gas optimization issues\n\n2. SYSTEM SECURITY:\n   - Process monitoring for unauthorized activity\n   - Network connection analysis\n   - File permission audits\n   - EAGAIN/OOM prevention\n\n3. CREDENTIAL PROTECTION:\n   - Scan for leaked secrets in code\n   - Verify .gitignore covers sensitive files\n   - Monitor for exposed API keys\n   - Ensure secrets use environment variables\n\n4. WEB SECURITY:\n   - SSL certificate monitoring\n   - HTTP security headers\n   - DNS record verification\n   - Domain hijacking prevention\n\n5. DEPENDENCY SECURITY:\n   - Known CVE scanning\n   - Supply chain attack detection\n   - Lock file integrity\n\nSEVERITY LEVELS:\n- CRITICAL: Active exploitation or imminent data loss\n- HIGH: Exploitable vulnerability with significant impact\n- MEDIUM: Vulnerability requiring specific conditions\n- LOW: Best practice violation, minor risk\n- INFO: Informational finding, no immediate risk\n\nALWAYS report to ZION (orchestrator) on CRITICAL findings.\n\nEm nome do Senhor Jesus Cristo.",
+
+  "config": {
+    "model_preferences": ["gemini-2.5-pro", "gemini-2.5-flash"],
+    "temperature": 0.1,
+    "max_tokens": 4096,
+    "timeout_seconds": 120,
+    "permission_mode": "autonomous",
+    "scan_interval_minutes": 60,
+    "auto_alert_on_critical": true,
+    "alert_recipients": ["ZION", "Israel-Dez"],
+    "monitored_domains": ["standardbitcoin.io", "sintex.ai"],
+    "severity_threshold": "medium",
+    "scan_paths": ["~/israel-ten", "~/capybara-ai", "~/claw-mcp-toolkit"],
+    "secrets_patterns": [
+      "PRIVATE_KEY", "SECRET_KEY", "API_KEY", "PASSWORD",
+      "ghp_", "sk-", "-----BEGIN.*PRIVATE KEY-----"
+    ]
+  },
+
+  "state_file": "~/.israel-framework/state/NEHEMIAS_state.json",
+  "log_file": "~/.israel-framework/logs/NEHEMIAS_{date}.log",
+  "bus_inbox": "~/.israel-framework/bus/NEHEMIAS_inbox.jsonl"
+}

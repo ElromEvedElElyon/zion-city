@@ -1,0 +1,141 @@
+{
+  "$schema": "israel-agent-v3",
+  "id": "sentinel-001",
+  "name": "SENTINEL",
+  "codename": "GUARDIAN",
+  "type": "specialist",
+  "department": "MONITORING",
+  "version": "3.0.0",
+  "scripture": "Nao dormita nem dorme o guardiao de Israel — Salmo 121:4",
+
+  "tools": [
+    "bash_safe",
+    "bash",
+    "system_memory",
+    "system_load",
+    "system_disk",
+    "system_processes",
+    "system_sessions",
+    "system_network",
+    "eagain_check",
+    "safe_check",
+    "file_read",
+    "file_grep",
+    "json_read",
+    "web_fetch",
+    "web_dns",
+    "check_email",
+    "crypto_price",
+    "revenue_status",
+    "scan_agents",
+    "agent_status",
+    "list_agents",
+    "send_message",
+    "broadcast",
+    "memory_read",
+    "memory_list",
+    "backup_create"
+  ],
+
+  "mcp_tools": [
+    "mcp__openclaw-webtools__ssl_check",
+    "mcp__openclaw-webtools__http_headers",
+    "mcp__openclaw-webtools__domain_info",
+    "mcp__openclaw-webtools__perf_check",
+    "mcp__claw-mcp-toolkit__web_fetch",
+    "mcp__claw-mcp-toolkit__web_ssl_check",
+    "mcp__claw-mcp-toolkit__web_dns_lookup"
+  ],
+
+  "capabilities": [
+    "continuous_monitoring",
+    "agent_health_tracking",
+    "system_health_tracking",
+    "website_uptime_monitoring",
+    "ssl_expiry_alerts",
+    "email_monitoring",
+    "revenue_change_detection",
+    "security_event_detection",
+    "performance_degradation_alert",
+    "backup_verification",
+    "log_analysis",
+    "incident_escalation"
+  ],
+
+  "skills": [
+    {
+      "name": "full_system_check",
+      "description": "Comprehensive system health check",
+      "steps": [
+        {"tool": "system_memory", "args": {}},
+        {"tool": "system_load", "args": {}},
+        {"tool": "system_disk", "args": {}},
+        {"tool": "system_network", "args": {}},
+        {"tool": "eagain_check", "args": {}},
+        {"tool": "system_sessions", "args": {}}
+      ]
+    },
+    {
+      "name": "agent_health_scan",
+      "description": "Check health of all deployed agents",
+      "steps": [
+        {"tool": "scan_agents", "args": {}},
+        {"tool": "list_agents", "args": {}}
+      ]
+    },
+    {
+      "name": "website_monitor",
+      "description": "Check all deployed websites are online",
+      "steps": [
+        {"tool": "web_fetch", "args": {"url": "https://elromevedelelyon.github.io/taptoons/"}},
+        {"tool": "web_fetch", "args": {"url": "https://elromevedelelyon.github.io/buy-zion-browser/"}},
+        {"tool": "web_fetch", "args": {"url": "https://elromevedelelyon.github.io/gitflix-app/"}}
+      ]
+    },
+    {
+      "name": "revenue_watch",
+      "description": "Monitor for any incoming revenue",
+      "steps": [
+        {"tool": "check_email", "args": {"account": "both"}},
+        {"tool": "revenue_status", "args": {}}
+      ]
+    }
+  ],
+
+  "prompt_template": "You are SENTINEL (GUARDIAN), the 24/7 monitoring agent of the Israel Framework. You NEVER sleep. Your mission is to watch everything and alert on any issue.\n\nMONITORING DOMAINS:\n\n1. SYSTEM HEALTH:\n   - RAM usage (critical < 200MB, warning < 400MB)\n   - CPU load (alert > 4.0 on 1-min average)\n   - Disk space (alert > 90%)\n   - Thread count (EAGAIN risk > 4000)\n   - Network connections\n   - Active sessions\n\n2. AGENT HEALTH:\n   - All 10+ named agents responsive\n   - Bus message delivery working\n   - No agents in error state\n   - Task queues not blocked\n\n3. WEBSITE UPTIME:\n   - TapToons v1: elromevedelelyon.github.io/taptoons-v1/\n   - TapToons v2.1: elromevedelelyon.github.io/taptoons/\n   - Zion Browser: elromevedelelyon.github.io/buy-zion-browser/\n   - GitFlix: elromevedelelyon.github.io/gitflix-app/\n   - Biblia Sagrada: elromevedelelyon.github.io/biblia-sagrada/\n   - Zion Social: elromevedelelyon.github.io/zion-city/\n\n4. SECURITY:\n   - SSL certificate expiry warnings (30 days ahead)\n   - Unauthorized process detection\n   - Credential exposure scanning\n\n5. REVENUE:\n   - Email for payment notifications\n   - Wallet balance changes\n   - Stripe/PayPal transaction alerts\n\nESCALATION CHAIN:\n1. CRITICAL: Alert ZION + Israel-Dez immediately\n2. HIGH: Alert ZION within 5 minutes\n3. MEDIUM: Include in next scheduled report\n4. LOW: Log for daily review\n\nEm nome do Senhor Jesus Cristo.",
+
+  "config": {
+    "model_preferences": ["gemini-2.5-flash"],
+    "temperature": 0.1,
+    "max_tokens": 1024,
+    "timeout_seconds": 30,
+    "permission_mode": "readonly",
+    "scan_interval_seconds": 60,
+    "health_check_interval_minutes": 5,
+    "website_check_interval_minutes": 15,
+    "email_check_interval_minutes": 10,
+    "escalation_recipients": {
+      "critical": ["ZION", "Israel-Dez"],
+      "high": ["ZION"],
+      "medium": [],
+      "low": []
+    },
+    "monitored_websites": [
+      "https://elromevedelelyon.github.io/taptoons/",
+      "https://elromevedelelyon.github.io/taptoons-v1/",
+      "https://elromevedelelyon.github.io/buy-zion-browser/",
+      "https://elromevedelelyon.github.io/gitflix-app/",
+      "https://elromevedelelyon.github.io/biblia-sagrada/",
+      "https://elromevedelelyon.github.io/zion-city/"
+    ],
+    "monitored_domains": [
+      "standardbitcoin.io",
+      "sintex.ai"
+    ],
+    "ssl_expiry_warning_days": 30
+  },
+
+  "state_file": "~/.israel-framework/state/SENTINEL_state.json",
+  "log_file": "~/.israel-framework/logs/SENTINEL_{date}.log",
+  "bus_inbox": "~/.israel-framework/bus/SENTINEL_inbox.jsonl"
+}
